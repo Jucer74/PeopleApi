@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using People.Api.Extensions;
+using People.Infrastructure.Context;
 
 namespace People.Api
 {
@@ -27,11 +23,17 @@ namespace People.Api
       public void ConfigureServices(IServiceCollection services)
       {
 
+         services.AddDbContext<AppDbContext>(options => options.UseSqlite("Name=PeopleDB"));
+
          services.AddControllers();
          services.AddSwaggerGen(c =>
          {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "People.Api", Version = "v1" });
          });
+
+         // Add Modules
+         services.AddCoreModules();
+         services.AddInfrastructureModules();
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,10 +1,10 @@
-﻿using People.Domain.Common;
+﻿using Microsoft.EntityFrameworkCore;
+using People.Domain.Common;
 using People.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace People.Infrastructure.Common
@@ -18,38 +18,38 @@ namespace People.Infrastructure.Common
          _appDbContext = appDbContext;
       }
 
-      public int Add(T entity)
+      public async Task AddAsync(T entity)
       {
          _appDbContext.Set<T>().Add(entity);
-         _appDbContext.SaveChanges();
-         return entity.Id;
+         await _appDbContext.SaveChangesAsync();
       }
 
-      public IEnumerable<T> Find(Expression<Func<T, bool>> predicate)
+      public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
       {
-         return _appDbContext.Set<T>().Where(predicate).AsEnumerable();
+         return await _appDbContext.Set<T>().Where(predicate).ToListAsync<T>();
       }
 
-      public IEnumerable<T> GetAll()
+
+      public async Task<IEnumerable<T>> GetAllAsync()
       {
-         return _appDbContext.Set<T>().AsEnumerable();
+         return await _appDbContext.Set<T>().ToListAsync<T>();
       }
 
-      public T GetById(int id)
+      public async Task<T> GetByIdAsync(int id)
       {
-         return _appDbContext.Set<T>().Find(id);
+         return await _appDbContext.Set<T>().FindAsync(id);
       }
 
-      public void Remove(T entity)
+      public async Task RemoveAsync(T entity)
       {
          _appDbContext.Set<T>().Remove(entity);
-         _appDbContext.SaveChanges();
+         await _appDbContext.SaveChangesAsync();
       }
 
-      public void Update(T entity)
+      public async Task UpdateAsync(T entity)
       {
          _appDbContext.Entry(entity).State = EntityState.Modified;
-         _appDbContext.SaveChanges();
+         await _appDbContext.SaveChangesAsync();
       }
    }
 }

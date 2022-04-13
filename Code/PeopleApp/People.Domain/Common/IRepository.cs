@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace People.Domain.Common
 {
    public interface IRepository<T> where T : EntityBase
    {
-      int Add(T entity);
+      public Task AddAsync(T entity);
 
-      IEnumerable<T> GetAll();
+      public Task<IEnumerable<T>> GetAllAsync();
 
-      T GetById(int id);
+      public Task<T> GetByIdAsync(int id);
 
-      IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
+      public Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
 
-      void Update(T entity);
+      public Task UpdateAsync(T entity);
 
-      void Remove(T entity);
+      public Task RemoveAsync(T entity);
    }
 }
