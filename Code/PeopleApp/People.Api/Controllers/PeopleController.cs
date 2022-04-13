@@ -44,13 +44,16 @@ namespace People.Api.Controllers
       [HttpPut("{id}")]
       public async Task<IActionResult> Put(int id, [FromBody] Person person)
       {
-         return Ok(await _personService.GetAllAsync());
+         await _personService.UpdateAsync(id, person);
+         return Ok();
       }
 
       // DELETE api/<PeopleController>/5
       [HttpDelete("{id}")]
-      public void Delete(int id)
+      public async Task<IActionResult> Delete(int id)
       {
+         await _personService.RemoveAsync(id);
+         return Ok();
       }
    }
 }
