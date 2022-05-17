@@ -7,7 +7,7 @@ namespace People.Domain.Common
 {
    public interface IRepository<T> where T : EntityBase
    {
-      public Task AddAsync(T entity);
+      public Task<T> AddAsync(T entity);
 
       public Task<IEnumerable<T>> GetAllAsync();
 

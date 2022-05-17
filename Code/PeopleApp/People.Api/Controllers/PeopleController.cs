@@ -36,8 +36,7 @@ namespace People.Api.Controllers
       [HttpPost]
       public async Task<IActionResult> Post([FromBody] Person person)
       {
-         await _personService.AddAsync(person);
-         return Ok();
+         return Ok(await _personService.AddAsync(person));
       }
 
       // PUT api/<PeopleController>/5

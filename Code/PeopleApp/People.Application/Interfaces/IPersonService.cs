@@ -8,7 +8,7 @@ namespace People.Application.Interfaces
 {
    public interface IPersonService
    {
-      public Task AddAsync(Person entity);
+      public Task<Person> AddAsync(Person entity);
 
       public Task<IEnumerable<Person>> GetAllAsync();
 

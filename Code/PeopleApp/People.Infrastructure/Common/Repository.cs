@@ -18,10 +18,11 @@ namespace People.Infrastructure.Common
          _appDbContext = appDbContext;
       }
 
-      public async Task AddAsync(T entity)
+      public async Task<T> AddAsync(T entity)
       {
          _appDbContext.Set<T>().Add(entity);
          await _appDbContext.SaveChangesAsync();
+         return entity;
       }
 
       public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)

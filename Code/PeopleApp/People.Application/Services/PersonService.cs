@@ -17,9 +17,9 @@ namespace People.Application.Services
          _personRepository = personRepository;
       }
 
-      public async Task AddAsync(Person entity)
+      public async Task<Person> AddAsync(Person entity)
       {
-         await _personRepository.AddAsync(entity);
+         return await _personRepository.AddAsync(entity);
       }
 
       public async Task<IEnumerable<Person>> FindAsync(Expression<Func<Person, bool>> predicate)
