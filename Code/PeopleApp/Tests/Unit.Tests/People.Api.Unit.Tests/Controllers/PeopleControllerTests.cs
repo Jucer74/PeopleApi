@@ -50,7 +50,6 @@ namespace People.Api.Unit.Tests.Controllers
             Assert.That(response.Count, Is.EqualTo(1));
 
             mockPersonService.Verify(m => m.GetAllAsync(), Times.Once);
-            mockPersonService.Verify(m => m.GetByIdAsync(It.IsAny<int>()), Times.Once);
         }
     }
 }
