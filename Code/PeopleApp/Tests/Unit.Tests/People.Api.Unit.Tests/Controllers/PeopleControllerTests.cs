@@ -139,7 +139,6 @@ namespace People.Api.Unit.Tests.Controllers
             mockPersonService.Verify(m => m.UpdateAsync(It.IsAny<int>(), It.IsAny<Person>()), Times.Once);
         }
 
-
         [Test]
         public async Task Delete_Success()
         {
