@@ -124,7 +124,6 @@ namespace People.Api.Unit.Tests.Controllers
         {
             // Arrange
             int id = 13;
-            var personExpected = PersonMother.Default(id, firstName: "Mike");
             var personRequest = PersonMother.Default(id, firstName:"Mike");
 
             mockPersonService.Setup(m => m.UpdateAsync(id, personRequest)).Returns(Task.CompletedTask); 
