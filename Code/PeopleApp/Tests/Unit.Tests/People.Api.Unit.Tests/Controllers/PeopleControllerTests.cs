@@ -7,10 +7,12 @@ using People.Api.Mapping;
 using People.Application.Interfaces;
 using People.Domain.Entities;
 using PeopleApp.Unit.Tests.Library.Builders;
+using PeopleApp.Unit.Tests.Library.Comparers;
 using PeopleApp.Unit.Tests.Library.Mappers;
 using PeopleApp.Unit.Tests.Library.Mothers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -74,6 +76,8 @@ namespace People.Api.Unit.Tests.Controllers
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
             Assert.That(response.Count, Is.EqualTo(quantity));
+
+            Assert.IsTrue(response.SequenceEqual(personsExpected, PersonComparer.Comparer()));
 
             mockPersonService.Verify(m => m.GetAllAsync(), Times.Once);
         }
@@ -187,16 +191,23 @@ namespace People.Api.Unit.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.That(result.StatusCode, Is.EqualTo((int)HttpStatusCode.OK));
             var response = result.Value as Person;
+            
             Assert.IsNotNull(response);
             Assert.That(response, Is.EqualTo(personExpected));
-            Assert.Multiple(() =>
-            {
-                Assert.That(response.Id, Is.EqualTo(personExpected.Id));
-                Assert.That(response.FirstName, Is.EqualTo(personExpected.FirstName));
-                Assert.That(response.LastName, Is.EqualTo(personExpected.LastName));
-                Assert.That(response.DateOfBirth, Is.EqualTo(personExpected.DateOfBirth));
-                Assert.That(response.Sex, Is.EqualTo(personExpected.Sex));
-            });
+
+            //var personComparer = PersonMother.Default(10);
+
+            //Assert.Multiple(() =>
+            //{
+            //    Assert.That(response.Id, Is.EqualTo(personExpected.Id));
+            //    Assert.That(response.FirstName, Is.EqualTo(personExpected.FirstName));
+            //    Assert.That(response.LastName, Is.EqualTo(personExpected.LastName));
+            //    Assert.That(response.DateOfBirth, Is.EqualTo(personExpected.DateOfBirth));
+            //    Assert.That(response.Sex, Is.EqualTo(personExpected.Sex));
+            //});
+
+            Assert.IsTrue(PersonComparer.Equals(personComparer, personExpected) );
+
             mockPersonService.Verify(m => m.AddAsync(It.IsAny<Person>()), Times.Once);
         }
     }
