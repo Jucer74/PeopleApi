@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using People.Api.Requests;
 using People.Application.Interfaces;
 using People.Domain.Entities;
 using System.Threading.Tasks;
@@ -12,10 +14,12 @@ namespace People.Api.Controllers
     public class PeopleController : ControllerBase
     {
         private readonly IPersonService _personService;
+        private readonly IMapper _mapper;
 
-        public PeopleController(IPersonService personService)
+        public PeopleController(IPersonService personService, IMapper mapper)
         {
             _personService = personService;
+            _mapper = mapper;   
         }
 
         // GET: api/<PeopleController>
@@ -53,6 +57,14 @@ namespace People.Api.Controllers
         {
             await _personService.RemoveAsync(id);
             return Ok();
+        }
+
+        // POST api/<PeopleController>/Create
+        [HttpPost("Create")]
+        public async Task<IActionResult> Create([FromBody] PersonRequest personRequest)
+        {
+            var person = _mapper.Map<Person>(personRequest);
+            return Ok(await _personService.AddAsync(person));
         }
     }
 }

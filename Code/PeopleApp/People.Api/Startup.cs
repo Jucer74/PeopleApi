@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using People.Api.Extensions;
+using People.Api.Mapping;
 using People.Infrastructure.Context;
 
 namespace People.Api
@@ -33,6 +35,15 @@ namespace People.Api
             // Add Modules
             services.AddCoreModules();
             services.AddInfrastructureModules();
+
+            // Mapping
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);  
 
             services.AddCors();
         }
