@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.17.0" />
+    <PackageReference Include="Mapster" Version="7.3.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\People.Api\People.Api.csproj" />
     <ProjectReference Include="..\..\..\People.Domain\People.Domain.csproj" />
   </ItemGroup>
 
