@@ -207,7 +207,7 @@ namespace People.Api.Unit.Tests.Controllers
             //});
 
             var comparer = PersonComparer.Comparer();
-            Assert.IsTrue(personResponse.Equals(personComparer, personExpected ));
+            Assert.IsTrue(comparer.Equals(personComparer, personExpected ));
 
             mockPersonService.Verify(m => m.AddAsync(It.IsAny<Person>()), Times.Once);
         }
