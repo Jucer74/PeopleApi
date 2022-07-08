@@ -195,7 +195,7 @@ namespace People.Api.Unit.Tests.Controllers
             Assert.IsNotNull(response);
             Assert.That(response, Is.EqualTo(personExpected));
 
-            //var personComparer = PersonMother.Default(10);
+            var personComparer = PersonMother.Default(id);
 
             //Assert.Multiple(() =>
             //{
@@ -206,7 +206,8 @@ namespace People.Api.Unit.Tests.Controllers
             //    Assert.That(response.Sex, Is.EqualTo(personExpected.Sex));
             //});
 
-            Assert.IsTrue(PersonComparer.Equals(personComparer, personExpected) );
+            var comparer = PersonComparer.Comparer();
+            Assert.IsTrue(personResponse.Equals(personComparer, personExpected ));
 
             mockPersonService.Verify(m => m.AddAsync(It.IsAny<Person>()), Times.Once);
         }
