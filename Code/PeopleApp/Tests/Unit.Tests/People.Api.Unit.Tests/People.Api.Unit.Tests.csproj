@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\People.Api\People.Api.csproj" />
+    <ProjectReference Include="..\PeopleApp.Unit.Tests.Library\PeopleApp.Unit.Tests.Library.csproj" />
   </ItemGroup>
 
 </Project>
