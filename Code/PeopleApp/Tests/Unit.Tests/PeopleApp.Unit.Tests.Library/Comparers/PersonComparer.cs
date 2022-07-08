@@ -1,4 +1,9 @@
 ﻿using People.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace PeopleApp.Unit.Tests.Library.Comparers
 {
@@ -6,7 +11,7 @@ namespace PeopleApp.Unit.Tests.Library.Comparers
     {
         public static GenericComparer<Person> Comparer()
         {
-            return new GenericComparer<Person>(x =>
+            return new GenericComparer<Person>(x => 
             (
                 x.Id,
                 x.FirstName,

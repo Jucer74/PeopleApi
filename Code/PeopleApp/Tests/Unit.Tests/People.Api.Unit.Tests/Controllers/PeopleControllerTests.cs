@@ -12,6 +12,7 @@ using PeopleApp.Unit.Tests.Library.Mappers;
 using PeopleApp.Unit.Tests.Library.Mothers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace People.Api.Unit.Tests.Controllers
     {
         private PeopleController testPeopleController;
         private Mock<IPersonService> mockPersonService;
-        private IMapper mapper;
+        private IMapper autoMapper;
 
         [SetUp]
         public void SetUp()
@@ -32,10 +33,11 @@ namespace People.Api.Unit.Tests.Controllers
                 mc.AddProfile(new MappingProfile());
             });
 
-            mapper = mapperConfig.CreateMapper();
+            autoMapper = mapperConfig.CreateMapper();
+
 
             mockPersonService = new Mock<IPersonService>();
-            testPeopleController = new PeopleController(mockPersonService.Object, mapper);
+            testPeopleController = new PeopleController(mockPersonService.Object, autoMapper);
         }
 
         [Test]
@@ -74,6 +76,8 @@ namespace People.Api.Unit.Tests.Controllers
             Assert.IsNotNull(response);
             Assert.IsNotEmpty(response);
             Assert.That(response.Count, Is.EqualTo(quantity));
+
+            Assert.IsTrue(response.SequenceEqual(personsExpected, PersonComparer.Comparer()));
 
             mockPersonService.Verify(m => m.GetAllAsync(), Times.Once);
         }
@@ -172,12 +176,11 @@ namespace People.Api.Unit.Tests.Controllers
         public async Task Create_Success()
         {
             // Arrange
-            int id = 13;
-            //var personExpected = PersonMother.Default(id);
             var personRequest = PersonRequestMother.Default();
+            int id = 13;
 
             var personExpected = personRequest.ToPerson();
-            personExpected.Id = id;
+            personExpected.Id = id; 
 
             mockPersonService.Setup(m => m.AddAsync(It.IsAny<Person>())).ReturnsAsync(personExpected);
 
@@ -188,21 +191,24 @@ namespace People.Api.Unit.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.That(result.StatusCode, Is.EqualTo((int)HttpStatusCode.OK));
             var response = result.Value as Person;
+            
             Assert.IsNotNull(response);
             Assert.That(response, Is.EqualTo(personExpected));
-            
-            var personResponse = PersonMother.Default(id);
 
-            Assert.IsTrue(PersonComparer.Equals(personResponse, personExpected));
+            var personComparer = PersonMother.Default(id);
 
-            Assert.Multiple(() =>
-            {
-                Assert.That(response.Id, Is.EqualTo(personExpected.Id));
-                Assert.That(response.FirstName, Is.EqualTo(personExpected.FirstName));
-                Assert.That(response.LastName, Is.EqualTo(personExpected.LastName));
-                Assert.That(response.DateOfBirth, Is.EqualTo(personExpected.DateOfBirth));
-                Assert.That(response.Sex, Is.EqualTo(personExpected.Sex));
-            });
+            //Assert.Multiple(() =>
+            //{
+            //    Assert.That(response.Id, Is.EqualTo(personExpected.Id));
+            //    Assert.That(response.FirstName, Is.EqualTo(personExpected.FirstName));
+            //    Assert.That(response.LastName, Is.EqualTo(personExpected.LastName));
+            //    Assert.That(response.DateOfBirth, Is.EqualTo(personExpected.DateOfBirth));
+            //    Assert.That(response.Sex, Is.EqualTo(personExpected.Sex));
+            //});
+
+            var comparer = PersonComparer.Comparer();
+            Assert.IsTrue(personResponse.Equals(personComparer, personExpected ));
+
             mockPersonService.Verify(m => m.AddAsync(It.IsAny<Person>()), Times.Once);
         }
     }

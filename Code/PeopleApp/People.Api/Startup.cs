@@ -32,7 +32,6 @@ namespace People.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "People.Api", Version = "v1" });
             });
 
-
             // Mapping
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -45,7 +44,6 @@ namespace People.Api
             // Add Modules
             services.AddCoreModules();
             services.AddInfrastructureModules();
-  
 
             services.AddCors();
         }

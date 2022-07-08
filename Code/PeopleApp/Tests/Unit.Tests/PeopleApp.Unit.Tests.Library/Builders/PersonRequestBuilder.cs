@@ -9,18 +9,18 @@ namespace PeopleApp.Unit.Tests.Library.Builders
 {
     public class PersonRequestBuilder
     {
-        private PersonRequest PersonRequest;
+        private PersonRequest personRequest;
         private Fixture fixture;
 
         public PersonRequestBuilder()
         {
-            PersonRequest = new PersonRequest();
+            personRequest = new PersonRequest();
             fixture = new Fixture();    
         }
 
         public PersonRequestBuilder SetFixtureData()
         {
-            this.PersonRequest = fixture.Create<PersonRequest>(); 
+            this.personRequest = fixture.Create<PersonRequest>(); 
             return this;
         }
 
@@ -29,9 +29,10 @@ namespace PeopleApp.Unit.Tests.Library.Builders
             return fixture.Build<PersonRequest>().CreateMany<PersonRequest>(quantity).ToList();
         }
 
+
         public PersonRequestBuilder WithFirstName(string firstName) 
         {
-            this.PersonRequest.FirstName= firstName;
+            this.personRequest.FirstName= firstName;
             return this;
         }
 
@@ -39,25 +40,25 @@ namespace PeopleApp.Unit.Tests.Library.Builders
 
         public PersonRequestBuilder WithLastName(string lastName)
         {
-            this.PersonRequest.LastName = lastName;
+            this.personRequest.LastName = lastName;
             return this;
         }
 
         public PersonRequestBuilder WithDateOfBirth(DateTime dateOfBirth)
         {
-            this.PersonRequest.DateOfBirth = dateOfBirth;
+            this.personRequest.DateOfBirth = dateOfBirth;
             return this;
         }
 
         public PersonRequestBuilder WithSex(char sex)
         {
-            this.PersonRequest.Sex = sex;
+            this.personRequest.Sex = sex;
             return this;
         }
 
         public PersonRequest Build()
         {
-            return this.PersonRequest;
+            return this.personRequest;
         }
     }
 }

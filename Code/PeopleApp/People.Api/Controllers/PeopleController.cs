@@ -64,7 +64,8 @@ namespace People.Api.Controllers
         public async Task<IActionResult> Create([FromBody] PersonRequest personRequest)
         {
             var person = _mapper.Map<Person>(personRequest);
-            return Ok(await _personService.AddAsync(person));
+            var result = await _personService.AddAsync(person);
+            return Ok(result);
         }
     }
 }
