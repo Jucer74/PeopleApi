@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using People.Application.Interfaces;
 using People.Domain.Entities;
-using System.Collections.Generic;
+using People.Domain.Exceptions;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,6 +13,7 @@ namespace People.Api.Controllers
    public class PeopleController : ControllerBase
    {
       private readonly IPersonService _personService;
+
       public PeopleController(IPersonService personService)
       {
          _personService = personService;
@@ -29,7 +30,14 @@ namespace People.Api.Controllers
       [HttpGet("{id}")]
       public async Task<IActionResult> GetById(int id)
       {
-         return Ok(await _personService.GetByIdAsync(id));
+         try
+         {
+            return Ok(await _personService.GetByIdAsync(id));
+         }
+         catch (NotFoundException ex)
+         {
+            return NotFound(ex.Message);
+         }
       }
 
       // POST api/<PeopleController>
@@ -43,16 +51,33 @@ namespace People.Api.Controllers
       [HttpPut("{id}")]
       public async Task<IActionResult> Put(int id, [FromBody] Person person)
       {
-         await _personService.UpdateAsync(id, person);
-         return Ok();
+         try
+         {
+            return Ok(await _personService.UpdateAsync(id, person));
+         }
+         catch (BadRequestException ex)
+         {
+            return BadRequest(ex.Message);
+         }
+         catch (NotFoundException ex)
+         {
+            return NotFound(ex.Message);
+         }
       }
 
       // DELETE api/<PeopleController>/5
       [HttpDelete("{id}")]
       public async Task<IActionResult> Delete(int id)
       {
-         await _personService.RemoveAsync(id);
-         return Ok();
+         try
+         {
+            await _personService.RemoveAsync(id);
+            return Ok();
+         }
+         catch (NotFoundException ex)
+         {
+            return NotFound(ex.Message);
+         }
       }
    }
 }

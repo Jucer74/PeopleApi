@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using People.Domain.Common;
+using People.Domain.Exceptions;
 using People.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
@@ -43,14 +44,32 @@ namespace People.Infrastructure.Common
 
       public async Task RemoveAsync(T entity)
       {
+         var id = entity?.Id;
+         var original = await _appDbContext.Set<T>().FindAsync(id);
+
+         if (original is null)
+         {
+            throw new NotFoundException($"Person with Id={id} Not Found");
+         }
+
          _appDbContext.Set<T>().Remove(entity);
          await _appDbContext.SaveChangesAsync();
       }
 
-      public async Task UpdateAsync(T entity)
+      public async Task<T> UpdateAsync(T entity)
       {
-         _appDbContext.Entry(entity).State = EntityState.Modified;
+         var id = entity?.Id;
+         var original = await _appDbContext.Set<T>().FindAsync(id);
+
+         if (original is null)
+         {
+            throw new NotFoundException($"Person with Id={id} Not Found");
+         }
+
+         _appDbContext.Entry(original).CurrentValues.SetValues(entity);
          await _appDbContext.SaveChangesAsync();
+
+         return entity;
       }
    }
 }

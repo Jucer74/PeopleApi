@@ -15,7 +15,7 @@ namespace People.Domain.Common
 
       public Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
 
-      public Task UpdateAsync(T entity);
+      public Task<T> UpdateAsync(T entity);
 
       public Task RemoveAsync(T entity);
    }

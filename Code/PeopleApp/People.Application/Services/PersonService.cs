@@ -1,5 +1,6 @@
 ﻿using People.Application.Interfaces;
 using People.Domain.Entities;
+using People.Domain.Exceptions;
 using People.Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -36,20 +37,41 @@ namespace People.Application.Services
       {
          var person = await _personRepository.GetByIdAsync(id);
 
-         // Validte If Exist
+         if (person is null)
+         {
+            throw new NotFoundException($"Person with Id={id} Not Found");
+         }
+         
          return person;
       }
 
       public async Task RemoveAsync(int id)
       {
          var person = await _personRepository.GetByIdAsync(id);
+
+         if (person is null)
+         {
+            throw new NotFoundException($"Person with Id={id} Not Found");
+         }
+
          await _personRepository.RemoveAsync(person);
       }
 
-      public async Task UpdateAsync(int id, Person entity)
+      public async Task<Person> UpdateAsync(int id, Person entity)
       {
-         // Validate if Exist
-         await _personRepository.UpdateAsync(entity);
+         if (id != entity.Id)
+         {
+            throw new BadRequestException($"The Id={id} not corresponding with Entity.Id={entity.Id}");
+         }
+
+         var person = await _personRepository.GetByIdAsync(id);
+
+         if (person is null)
+         {
+            throw new NotFoundException($"Person with Id={id} Not Found");
+         }
+
+         return (await _personRepository.UpdateAsync(entity));
       }
    }
 }
