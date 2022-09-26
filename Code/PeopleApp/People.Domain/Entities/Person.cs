@@ -16,7 +16,7 @@ namespace People.Domain.Entities
       public DateTime DateOfBirth { get; set; }
 
       [Required]
-      [RegularExpression(@"[M|F]")]
+      [RegularExpression(@"[M|F]", ErrorMessage ="Invalid Sex Value")]
       public char Sex { get; set; }
    }
 }
