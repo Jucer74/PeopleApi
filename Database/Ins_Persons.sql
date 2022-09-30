@@ -1,0 +1,16 @@
+TRUNCATE TABLE Persons;
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Benedick', 'Felten', '10/19/1993', 'M', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Emmet', 'Gimlet', '10/7/1999', 'M', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Rosina', 'Chatainier', '7/21/1995', 'F', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Kordula', 'Glancey', '6/11/1994', 'F', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Brannon', 'Rothermel', '1/28/1991', 'M', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Sebastien', 'Sindall', '1/7/1974', 'M', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Myrilla', 'Alpe', '4/21/2004', 'F', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Selie', 'covino', '6/27/1992', 'F', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Raleigh', 'Kiln', '12/18/1987', 'M', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Bengt', 'Le Batteur', '1/30/1995', 'M', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Trudy', 'Kinnin', '6/9/1985', 'F', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Jayne', 'Arends', '8/16/1996', 'F', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Humbert', 'Heikkinen', '10/14/1991', 'M', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Christian', 'Pack', '4/6/1995', 'M', '');
+INSERT INTO Persons (FirstName, LastName, DateOfBirth, Sex, ImagePath) VALUES ('Marcela', 'Gamon', '8/21/2002', 'F', '');
