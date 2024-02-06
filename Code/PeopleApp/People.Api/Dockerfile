@@ -1,28 +1,25 @@
-# syntax=docker/dockerfile:1
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
 WORKDIR /app
-ENV ASPNETCORE_ENVIRONMENT=Development
-ENV DOTNET_USE_POLLING_FILE_WATCHER=true  
-ENV ASPNETCORE_URLS=http://+:80  
-EXPOSE 80
+EXPOSE 8080
+EXPOSE 8081
 
-
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build  
-WORKDIR /app
-
-# Copy everything else and build
-COPY *.sln .
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["People.Api/People.Api.csproj", "People.Api/"]
+RUN dotnet restore "./People.Api/./People.Api.csproj"
 COPY . .
-WORKDIR /app/People.Api
-RUN dotnet restore
+WORKDIR "/src/People.Api"
+RUN dotnet build "./People.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish -c Release -o out
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./People.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-
-# Build runtime image
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/People.Api/out .
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "People.Api.dll"]
